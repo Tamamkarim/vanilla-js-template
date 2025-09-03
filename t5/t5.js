@@ -33,19 +33,8 @@ function openModal(restaurant, dailyMenu) {
       </tr>
     </thead>
     <tbody>`;
-  if (dailyMenu && dailyMenu.courses && dailyMenu.courses.length > 0) {
-    for (const course of dailyMenu.courses) {
-      html += `
-        <tr>
-          <td>${course.name || ''}</td>
-          <td>${course.price || ''}</td>
-          <td>${course.diets ? course.diets.join(', ') : ''}</td>
-        </tr>`;
-    }
-  } else {
-    html += `<tr><td colspan="3">Ei ruokalistaa tälle päivälle.</td></tr>`;
-  }
-  html += '</tbody></table>';
+  // silmukalla dailyMenu läpi, lisää html stringiin
+  console.log(dailyMenu);
   modalContent.insertAdjacentHTML('beforeend', html);
 }
 
