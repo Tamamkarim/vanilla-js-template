@@ -1,7 +1,6 @@
-'use strict';
-
+"use strict";
 // Fetch data from a REST API endpoint
-export async function fetchData(url, options = {}) {
+async function fetchData(url = "https://media1.edu.metropolia.fi/restaurant/api/v1/restaurants", options = {}) {
   const response = await fetch(url, options);
   const json = await response.json();
   if (!response.ok) {
@@ -13,3 +12,4 @@ export async function fetchData(url, options = {}) {
   }
   return json;
 }
+window.fetchData = fetchData;

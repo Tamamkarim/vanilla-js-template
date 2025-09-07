@@ -1,4 +1,4 @@
-import { fetchData } from './fetchData.js';
+'use strict';
 async function register() {
   try {
     const user = {
@@ -14,6 +14,7 @@ async function register() {
       },
       body: JSON.stringify(user),
     };
+    // eslint-disable-next-line no-undef
     const userData = await fetchData(url, options);
     console.log(userData);
   } catch (error) {
