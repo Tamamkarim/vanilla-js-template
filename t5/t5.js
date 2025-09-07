@@ -52,13 +52,57 @@ const teeRavintolaLista = async (restaurants) => {
   });
 };
 
-const restaurants = await haeRavintolat();
-teeRavintolaLista(restaurants);
+const showError = (message) => {
+  target.innerHTML = `<tr><td colspan="3" style="color:red;text-align:center;">${message}</td></tr>`;
+};
+
+const displayCafes = (cafes) => {
+  if (!cafes || !Array.isArray(cafes) || cafes.length === 0) {
+    showError("ei tuloksia");
+    return;
+  }
+  target.innerHTML = '';
+  cafes.forEach((cafe) => {
+    const row = restaurantRow(cafe);
+    row.addEventListener('click', highlight);
+    row.addEventListener('click', async () => {
+      openModal(cafe, { courses: [] });
+    });
+    target.appendChild(row);
+  });
+};
+
+let cafes = [];
+try {
+  cafes = await fetchData(apiURL);
+  displayCafes(cafes);
+} catch (err) {
+  showError("varattu virhe");
+}
 
 sodexoButton.addEventListener('click', () => {
-  const filteredRestaurants = restaurants.filter(
-    (restaurant) => restaurant.company === 'Sodexo'
-  );
-  teeRavintolaLista(filteredRestaurants);
+  const filtered = cafes.filter(cafe => (cafe.company || '').toLowerCase().includes('sodexo'));
+  displayCafes(filtered);
+});
+
+compassButton.addEventListener('click', () => {
+  const filtered = cafes.filter(cafe => (cafe.company || '').toLowerCase().includes('compass'));
+  displayCafes(filtered);
+});
+
+resetButton.addEventListener('click', () => {
+  displayCafes(cafes);
+});
+
+
+const totalPrices = cafes.reduce((sum, cafe) => {
+
+  return sum + (cafe.price || 0);
+}, 0);
+console.log('Yhteensä hinnat:', totalPrices);
+
+
+cafes.forEach((cafe, idx) => {
+  console.log(`(${idx + 1}) ${cafe.title || cafe.name}: ${cafe.price || '-'}euros`);
 });
 
