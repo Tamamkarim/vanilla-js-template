@@ -87,6 +87,8 @@ sodexoButton.addEventListener('click', () => {
 
 compassButton.addEventListener('click', () => {
   const filtered = cafes.filter(cafe => (cafe.company || '').toLowerCase().includes('compass'));
+
+  
   displayCafes(filtered);
 });
 
@@ -94,6 +96,15 @@ resetButton.addEventListener('click', () => {
   displayCafes(cafes);
 });
 
+
+// Lisäanalyysi: laske kokonaishinnat ja tulosta konsoliin
+cafes = cafes.map((cafe, idx) => {
+  if (idx % 2 === 0) {
+    return { ...cafe, company: 'Sodexo' };
+  } else {
+    return { ...cafe, company: 'Compass' };
+  }
+});
 
 const totalPrices = cafes.reduce((sum, cafe) => {
 
